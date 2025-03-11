@@ -30,8 +30,8 @@ namespace BreatheEasy
         private DateTime _lastConfigReloadTime;
         private const long RELOAD_DELAY = 10000000; // One second
         internal const string VfxKeyword = "vfx";
-        
-        private static readonly ConfigSync ConfigSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion, ModRequired = true};
+
+        private static readonly ConfigSync ConfigSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion, ModRequired = true };
 
         public enum Toggle
         {
