@@ -1,3 +1,4 @@
-| `Version` | `Update Notes`    |
-|-----------|-------------------|
-| 1.0.0     | - Initial Release |
+| `Version` | `Update Notes`                                                                                                                                                                      |
+|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.1     | - Add a configuration option specifically for dust on creatures.  Overridden by Remove All Ragdoll Effects & Remove All Effects. Meaning, if you have those on, it will do nothing. |
+| 1.0.0     | - Initial Release                                                                                                                                                                   |

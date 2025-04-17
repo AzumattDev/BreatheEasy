@@ -55,7 +55,7 @@ static class RagdollDestroyNowPatch
                 continue;
             }
 
-            if (effect.m_prefab.name.Contains("vfx_corpse"))
+            if (effect.m_prefab.name.Contains("vfx_corpse") && RemoveCreatureDust.Value.IsOn())
             {
                 continue;
             }

@@ -18,7 +18,7 @@ namespace BreatheEasy
     public class BreatheEasyPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BreatheEasy";
-        internal const string ModVersion = "1.0.0";
+        internal const string ModVersion = "1.0.1";
         internal const string Author = "RandomSteve";
         private const string ModGUID = $"{Author}.{ModName}";
         private static string ConfigFileName = $"{ModGUID}.cfg";
@@ -48,6 +48,7 @@ namespace BreatheEasy
             internal const string NoHoeDust = $"{Azu}.NoHoeDust";
             internal const string NoTreeDust = $"{Azu}.NoTreeDust";
             internal const string NoWeaponDust = $"{Azu}.NoWeaponDust";
+            internal const string TrueInstantLootDrop = $"{Azu}.TrueInstantLootDrop";
         }
 
         public void Awake()
@@ -73,6 +74,7 @@ namespace BreatheEasy
             // No Creature Dust
             RemoveAllVFX_Ncd = config("1 - No Creature Dust", "Remove All Effects", Toggle.Off, "Removes all visual effects from when a creature dies, not just the vanilla dust.", false);
             RemoveAllRagdollVFX = config("1 -  No Creature Dust", "Remove All Ragdoll Effects", Toggle.Off, "Removes all ragdoll effects from creatures, not just the vanilla dust. Just in case mods add more you want to remove.", false);
+            RemoveCreatureDust = config("1 -  No Creature Dust", "Remove Creature Dust", Toggle.Off, "Removes vanilla dust/poof. Overridden by Remove All Ragdoll Effects & Remove All Effects. Meaning, if you have those on, this will do nothing.", false);
 
             // No Cultivator Dust
             RemoveAllVFX_Ncultd = config("1 - No Cultivator Dust", "Remove All Effects", Toggle.On, "Removes all visual effects from when a cultivator is used, not just the vanilla dust.", false);
@@ -190,6 +192,7 @@ namespace BreatheEasy
 
         public static ConfigEntry<Toggle> RemoveAllVFX_Ncd = null!;
         public static ConfigEntry<Toggle> RemoveAllRagdollVFX = null!;
+        public static ConfigEntry<Toggle> RemoveCreatureDust = null!;
 
         public static ConfigEntry<Toggle> RemoveAllVFX_Ncultd = null!;
 
