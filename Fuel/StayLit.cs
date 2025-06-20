@@ -9,27 +9,45 @@ public static class StayLit
     public static void SetToMaxFuel(Component instance, ZNetView netView)
     {
         if (FireplacesStayLit.Value.IsOff()) return;
+
         Smelter? smelter = instance.GetComponent<Smelter>();
         CookingStation? cookingStation = instance.GetComponent<CookingStation>();
+
         if (netView == null || netView.GetZDO() == null) return;
-        if (smelter != null)
+
+        // Use ShouldConsumeFuel to determine if we should set max fuel
+        if (smelter != null && !ShouldConsumeFuel(instance))
             netView.GetZDO().Set(ZDOVars.s_fuel, smelter.m_maxFuel);
-        else if (cookingStation != null)
+        else if (cookingStation != null && !ShouldConsumeFuel(instance))
         {
             BreatheEasyLogger.LogInfo(" Setting fuel to max for " + instance.name);
             netView.GetZDO().Set(ZDOVars.s_fuel, cookingStation.m_maxFuel);
         }
+    }
+
+    internal static bool ShouldConsumeFuel(Component instance)
+    {
+        if (FireplacesStayLit.Value.IsOff()) return true;
+
+        if (instance.GetComponent<Smelter>() != null)
+            return SmeltersUseFuel.Value.IsOn();
+        if (instance.GetComponent<CookingStation>() != null)
+            return CookingStationsUseFuel.Value.IsOn();
+        if (instance.GetComponent<Fireplace>() != null)
+            return FireplacesUseFuel.Value.IsOn();
+
+        return true;
     }
 }
 
 [HarmonyPatch(typeof(Fireplace), nameof(Fireplace.IsBurning))]
 public static class Fireplace_IsBurning_AlwaysLit_Patch
 {
-    static void Postfix(ref bool __result)
+    static void Postfix(Fireplace __instance, ref bool __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && !StayLit.ShouldConsumeFuel(__instance))
         {
-            // Regardless of fuel, water, or environment, always report burning.
+            // Only override burning state if we're not using fuel
             __result = true;
         }
     }
@@ -43,7 +61,9 @@ public static class Fireplace_UpdateFireplace_NoFuelDrain_Patch
 {
     static bool Prefix(Fireplace __instance)
     {
-        if (!FireplacesStayLit.Value.IsOn()) return true;
+        if (!FireplacesStayLit.Value.IsOn() || StayLit.ShouldConsumeFuel(__instance))
+            return true; // Use normal fuel consumption
+
         // Instead of subtracting fuel, we simply update the visuals.
 
         // Enable the main fire object.
@@ -78,12 +98,9 @@ public static class Fireplace_GetHoverText_Patch
 {
     static void Postfix(Fireplace __instance, ref string __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && ShowFuelInHoverText.Value.IsOff())
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
             __result = Localization.instance.Localize(__instance.m_name);
-            /*}*/
         }
     }
 }
@@ -134,13 +151,10 @@ public static class CookingStation_GetFuel_InfiniteFuel_Patch
 {
     static bool Prefix(CookingStation __instance, ref float __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && !StayLit.ShouldConsumeFuel(__instance))
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
             __result = __instance.m_maxFuel;
             return false; // Skip the original GetFuel
-            //}
         }
 
         return true;
@@ -152,13 +166,9 @@ static class CookingStationOnHoverFuelSwitchPatch
 {
     static void Postfix(CookingStation __instance, ref string __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && ShowFuelInHoverText.Value.IsOff())
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
-
             __result = Localization.instance.Localize($"{__instance.m_name}");
-            //}
         }
     }
 }
@@ -186,13 +196,10 @@ public static class Smelter_GetFuel_InfiniteFuel_Patch
 {
     static bool Prefix(Smelter __instance, ref float __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && !StayLit.ShouldConsumeFuel(__instance))
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
             __result = __instance.m_maxFuel;
             return false; // Skip the original GetFuel
-            //}
         }
 
         return true;
@@ -204,13 +211,9 @@ static class SmelterOnHoverFuelSwitchPatch
 {
     static void Postfix(Smelter __instance, ref string __result)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && ShowFuelInHoverText.Value.IsOff())
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
-
             __result = Localization.instance.Localize($"{__instance.m_name}");
-            //}
         }
     }
 }
@@ -220,14 +223,11 @@ public static class Smelter_UpdateState_InfiniteFuel_Patch
 {
     static void Postfix(Smelter __instance)
     {
-        if (FireplacesStayLit.Value.IsOn())
+        if (FireplacesStayLit.Value.IsOn() && !StayLit.ShouldConsumeFuel(__instance))
         {
-            /*if (Configs.ConfigCheck(__instance.name))
-            {*/
             // For example, ensure the "have fuel" object is active.
             __instance.m_haveFuelObject?.SetActive(true);
             // (You could add more visual overrides as needed.)
-            //}
         }
     }
 }

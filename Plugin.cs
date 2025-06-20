@@ -18,7 +18,7 @@ namespace BreatheEasy
     public class BreatheEasyPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BreatheEasy";
-        internal const string ModVersion = "1.0.1";
+        internal const string ModVersion = "1.0.2";
         internal const string Author = "RandomSteve";
         private const string ModGUID = $"{Author}.{ModName}";
         private static string ConfigFileName = $"{ModGUID}.cfg";
@@ -67,7 +67,12 @@ namespace BreatheEasy
 
             DisableSmoke = config("1 - Smoke", "Disable Smoke", Toggle.On, "If on, the smoke from cooking stations, fireplaces and smelters will be disabled.", false);
             FireplacesStayLit = config("1 - Fireplace", "Stay Lit", Toggle.On, "If on, fireplaces will stay lit indefinitely. This is anything that uses the Fireplace component.");
+            FireplacesUseFuel = config("1 - Fireplace", "Fireplaces Use Fuel", Toggle.Off, "If on, fireplaces will still consume fuel even when Stay Lit is enabled. If off, fireplaces will have infinite fuel.");
+            ShowFuelInHoverText = config("1 - Fireplace", "Show Fuel in Hover Text", Toggle.Off, "If on, hover text will show fuel levels even when Stay Lit is enabled. If off, simplified hover text is shown.");
 
+            SmeltersUseFuel = config("1 - Smelters", "Smelters Use Fuel", Toggle.Off, "If on, smelters will still consume fuel (coal) even when Stay Lit is enabled. If off, smelters will have infinite fuel.");
+            CookingStationsUseFuel = config("1 - Cooking Stations", "Cooking Stations Use Fuel", Toggle.Off, "If on, cooking stations will still consume fuel even when Stay Lit is enabled. If off, cooking stations will have infinite fuel."); 
+            
             // No Build Dust
             RemoveAllVFX_Nbd = config("1 - No Build Dust", "Remove All Effects", Toggle.Off, "Removes all visual effects from when a building is destroyed, not just the vanilla dust.", false);
 
@@ -186,6 +191,10 @@ namespace BreatheEasy
 
         public static ConfigEntry<Toggle> DisableSmoke = null!;
         public static ConfigEntry<Toggle> FireplacesStayLit = null!;
+        public static ConfigEntry<Toggle> SmeltersUseFuel = null!;
+        public static ConfigEntry<Toggle> CookingStationsUseFuel = null!;
+        public static ConfigEntry<Toggle> FireplacesUseFuel = null!;
+        public static ConfigEntry<Toggle> ShowFuelInHoverText = null!;
 
         public static ConfigEntry<Toggle> RemoveAllVFX_Nbd = null!;
 
