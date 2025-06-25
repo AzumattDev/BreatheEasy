@@ -79,5 +79,3 @@
 | **Remove Start Effects**       | On      | Removes dust effects from weapons (On Start)       |
 
 ---
-
-Overly simple for now.

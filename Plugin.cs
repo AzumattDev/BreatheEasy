@@ -18,7 +18,7 @@ namespace BreatheEasy;
 public class BreatheEasyPlugin : BaseUnityPlugin
 {
     internal const string ModName = "BreatheEasy";
-    internal const string ModVersion = "1.0.3";
+    internal const string ModVersion = "1.0.4";
     internal const string Author = "RandomSteve";
     private const string ModGUID = $"{Author}.{ModName}";
     private static string ConfigFileName = $"{ModGUID}.cfg";
