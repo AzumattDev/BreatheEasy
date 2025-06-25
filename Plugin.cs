@@ -18,7 +18,7 @@ namespace BreatheEasy;
 public class BreatheEasyPlugin : BaseUnityPlugin
 {
     internal const string ModName = "BreatheEasy";
-    internal const string ModVersion = "1.0.2";
+    internal const string ModVersion = "1.0.3";
     internal const string Author = "RandomSteve";
     private const string ModGUID = $"{Author}.{ModName}";
     private static string ConfigFileName = $"{ModGUID}.cfg";
@@ -77,9 +77,9 @@ public class BreatheEasyPlugin : BaseUnityPlugin
         RemoveAllVFX_Nbd = config("1 - No Build Dust", "Remove All Effects", Toggle.Off, "Removes all visual effects from when a building is destroyed, not just the vanilla dust.", false);
 
         // No Creature Dust
-        RemoveAllVFX_Ncd = config("1 - No Creature Dust", "Remove All Effects", Toggle.Off, "Removes all visual effects from when a creature dies, not just the vanilla dust.", false);
-        RemoveAllRagdollVFX = config("1 -  No Creature Dust", "Remove All Ragdoll Effects", Toggle.Off, "Removes all ragdoll effects from creatures, not just the vanilla dust. Just in case mods add more you want to remove.", false);
-        RemoveCreatureDust = config("1 -  No Creature Dust", "Remove Creature Dust", Toggle.Off, "Removes vanilla dust/poof. Overridden by Remove All Ragdoll Effects & Remove All Effects. Meaning, if you have those on, this will do nothing.", false);
+        RemoveAllVFX_Ncd = config("1 - No Creature Dust", "Remove All Effects", Toggle.Off, "Removes ALL visual effects when creatures die (blood, dust, particles, etc.) but keeps the ragdoll body. Use this if you want clean deaths but still want loot to drop normally from ragdolls.", false);
+        RemoveAllRagdollVFX = config("1 -  No Creature Dust", "Remove All Ragdoll Effects", Toggle.Off, "Removes the ragdoll body entirely when creatures die. This makes loot drop instantly since there's no ragdoll effects to wait for. Also removes any dust/particles that would normally appear when the ragdoll despawns.", false);
+        RemoveCreatureDust = config("1 -  No Creature Dust", "Remove Creature Dust", Toggle.Off, "Removes only the vanilla dust/poof effect when ragdolls despawn. This is the most minimal option - keeps ragdolls and all other effects, just removes the small dust cloud. Note: This setting is ignored if either 'Remove All Effects' or 'Remove All Ragdoll Effects' is enabled.", false);
 
         // No Cultivator Dust
         RemoveAllVFX_Ncultd = config("1 - No Cultivator Dust", "Remove All Effects", Toggle.On, "Removes all visual effects from when a cultivator is used, not just the vanilla dust.", false);

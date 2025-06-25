@@ -1,6 +1,6 @@
 {
   "name": "BreatheEasy",
-  "version_number": "1.0.2",
+  "version_number": "1.0.3",
   "website_url": "https://discord.gg/pdHgy6Bsng",
   "description": "Removes smoke, dust, camera effects (heat wave in ashlands), and keeps things lit so you can breathe easy. Azumatt's NoDust series is included in this mod.",
   "dependencies": [
